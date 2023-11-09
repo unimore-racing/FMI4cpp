@@ -96,7 +96,7 @@ target_compile_definitions(fmi4cpp PRIVATE "BOOST_ALL_DYN_LINK=1" "BOOST_ALL_NO_
 target_compile_features(fmi4cpp PUBLIC "cxx_std_17")
 
 target_include_directories(fmi4cpp
-    PUBLIC
+    SYSTEM PUBLIC
         $<INSTALL_INTERFACE:include>
         $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/../include>
     PRIVATE
