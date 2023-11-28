@@ -21,6 +21,10 @@ std::shared_ptr<const cs_model_description> cs_fmu::get_model_description() cons
 {
     return modelDescription_;
 }
+bool cs_fmu::clear_mem(){
+    bool success = resource_->clearMem();
+    return success;
+}
 
 std::unique_ptr<cs_slave> cs_fmu::new_instance(const bool visible, const bool loggingOn)
 {

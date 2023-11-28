@@ -34,6 +34,20 @@ std::string fmu_resource::get_model_description_xml() const
     return std::string((std::istreambuf_iterator<char>(stream)), std::istreambuf_iterator<char>());
 }
 
+bool fmu_resource::clearMem()
+{
+    std::error_code success;
+    fs::remove_all(path_, success);
+
+    if (!success) {
+        MLOG_DEBUG("Deleted temporal folder '" + path_.string() + "'");
+        return true;
+    } else {
+        MLOG_DEBUG("Unable to delete temporal folder '" + path_.string() + "'");
+        return false;
+    }
+}
+
 fmu_resource::~fmu_resource()
 {
     std::error_code success;

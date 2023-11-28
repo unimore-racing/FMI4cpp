@@ -26,6 +26,8 @@ public:
 
     [[nodiscard]] std::string get_model_description_xml() const;
 
+    bool clearMem();
+
     ~fmu_resource();
 };
 
