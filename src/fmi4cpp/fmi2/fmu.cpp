@@ -20,8 +20,14 @@ fmu::fmu(const fs::path& fmuPath)
         throw std::runtime_error(err);
     }
 
+
+
     const std::string fmuName = fmuPath.stem().string();
-    fs::path tmpPath(fs::temp_directory_path() /= fs::path("fmi4cpp_" + fmuName + "_" + generate_simple_id(8)));
+    fs::path tmpPath(fs::temp_directory_path() /= fs::path("fmi4cpp_" + fmuName));
+
+    if (exists(tmpPath)) {
+        remove_all(tmpPath);
+    }
 
     if (!create_directories(tmpPath)) {
         const auto err = "Failed to create temporary directory '" + tmpPath.string() + "' !";
