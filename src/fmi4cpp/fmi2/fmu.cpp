@@ -23,7 +23,7 @@ fmu::fmu(const fs::path& fmuPath)
 
 
     const std::string fmuName = fmuPath.stem().string();
-    fs::path tmpPath(fs::temp_directory_path() /= fs::path("fmi4cpp_" + fmuName));
+    fs::path tmpPath(fs::temp_directory_path() /= fs::path("fmi4cpp_data"));
 
     if (exists(tmpPath)) {
         remove_all(tmpPath);
