@@ -25,7 +25,7 @@ public:
         const std::shared_ptr<cs_library>& library,
         const std::shared_ptr<const cs_model_description>& modelDescription);
 
-    bool step(double stepSize) override;
+    bool step(double stepSize, double speedUpFactor) override;
     bool cancel_step() override;
 
     [[nodiscard]] std::shared_ptr<const cs_model_description> get_model_description() const override;
@@ -81,4 +81,4 @@ public:
 } // namespace fmi4cpp::fmi2
 
 
-#endif //FMI4CPP_FMI2_CS_SLAVE_HPP
+#endif // FMI4CPP_FMI2_CS_SLAVE_HPP

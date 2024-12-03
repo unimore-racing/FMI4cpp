@@ -9,7 +9,7 @@ cs_slave::cs_slave(fmi2Component c,
     const std::shared_ptr<cs_library>& library,
     const std::shared_ptr<const cs_model_description>& modelDescription)
     : fmu_instance_base<cs_library, cs_model_description>(c, resource, library, modelDescription)
-{}
+{ }
 
 DLL_HANDLE cs_slave::handle() const
 {
@@ -21,10 +21,10 @@ fmi4cpp::status cs_slave::last_status() const
     return convert(library_->last_status());
 }
 
-bool cs_slave::step(const double stepSize)
+bool cs_slave::step(const double stepSize, const double speedUpFactor = 1)
 {
     if (library_->step(c_, simulationTime_, stepSize, false)) {
-        simulationTime_ += stepSize;
+        simulationTime_ += stepSize * speedUpFactor;
         return true;
     }
     return false;

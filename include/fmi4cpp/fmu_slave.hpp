@@ -12,11 +12,11 @@ class fmu_slave : public virtual fmu_instance<cs_model_description>
 {
 
 public:
-    virtual bool step(double stepSize) = 0;
+    virtual bool step(double stepSize, double speedUpFactor) = 0;
 
     virtual bool cancel_step() = 0;
 };
 
 } // namespace fmi4cpp
 
-#endif //FMI4CPP_FMUSLAVE_HPP
+#endif // FMI4CPP_FMUSLAVE_HPP
