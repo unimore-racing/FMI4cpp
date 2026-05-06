@@ -25,7 +25,7 @@ private:
     std::shared_ptr<const model_description> modelDescription_;
 
 public:
-    explicit fmu(const std::filesystem::path& fmuPath);
+    explicit fmu(const std::filesystem::path& fmuPath, const std::string& aId = "");
 
     [[nodiscard]] std::string get_model_description_xml() const;
     [[nodiscard]] std::shared_ptr<const model_description> get_model_description() const override;
@@ -35,6 +35,7 @@ public:
 
     [[nodiscard]] std::unique_ptr<cs_fmu> as_cs_fmu() const override;
     [[nodiscard]] std::unique_ptr<me_fmu> as_me_fmu() const override;
+    [[nodiscard]] std::filesystem::path extracted_path_folder() const { return resource_->path(); }
 };
 
 } // namespace fmi4cpp::fmi2

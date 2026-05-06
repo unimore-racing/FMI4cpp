@@ -24,6 +24,7 @@ public:
     [[nodiscard]] std::string absolute_library_path(const std::string& modelIdentifier) const;
 
     [[nodiscard]] std::string get_model_description_xml() const;
+    [[nodiscard]] std::filesystem::path path() const { return path_; }
 
     ~fmu_resource();
 };
