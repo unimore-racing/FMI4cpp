@@ -97,7 +97,7 @@ add_library(fmi4cpp ${publicHeadersFull} ${privateHeaders} ${sources})
 add_library(fmi4cpp::fmi4cpp ALIAS fmi4cpp)
 target_compile_features(fmi4cpp PUBLIC "cxx_std_17")
 
-target_include_directories(fmi4cpp
+target_include_directories(fmi4cpp SYSTEM
     PUBLIC
         $<INSTALL_INTERFACE:include>
         $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/../include>
@@ -110,6 +110,8 @@ target_link_libraries(fmi4cpp
         libzip::libzip
         pugixml::pugixml
 )
+target_compile_options(fmi4cpp PRIVATE -Wno-everything)
+
 
 if(WIN32)
     target_link_libraries(fmi4cpp PRIVATE "Bcrypt")
