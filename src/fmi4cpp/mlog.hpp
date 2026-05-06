@@ -58,12 +58,11 @@ mlog_level M_LOG_LEVEL = Info;
 #    define MLOG_ERROR(msg) _MLOG_(msg, Error)
 #    define MLOG_FATAL(msg) _MLOG_(msg, Fatal)
 
-#    define _MLOG_(msg, level)                                                                                                                    \
-        {                                                                                                                                         \
-            if (level >= M_LOG_LEVEL) {                                                                                                           \
-                auto time_now = std::chrono::system_clock::to_time_t(std::chrono::system_clock::now());                                           \
-                __MLOG__("[" << to_string(level) << "] [" << std::ctime(&time_now) << "] " << __FILE__ << ":" << __LINE__ << ": " << msg, level); \
-            }                                                                                                                                     \
+#    define _MLOG_(msg, level)                                                                                  \
+        {                                                                                                       \
+            if (level >= M_LOG_LEVEL) {                                                                         \
+                __MLOG__("[" << to_string(level) << "] " << __FILE__ << ":" << __LINE__ << ": " << msg, level); \
+            }                                                                                                   \
         }
 
 #    define __MLOG__(msg, level)               \
@@ -88,4 +87,4 @@ mlog_level M_LOG_LEVEL = Info;
 
 } // namespace
 
-#endif //MLOG_HPP
+#endif // MLOG_HPP
