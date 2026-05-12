@@ -24,6 +24,10 @@ fmu::fmu(const std::filesystem::path& fmuPath, const std::string& aId)
     auto id = aId.empty() ? generate_simple_id(0) : aId;
     std::filesystem::path tmpPath(std::filesystem::temp_directory_path() /= std::filesystem::path("fmi4cpp_" + fmuName + "_" + id));
 
+    if (exists(tmpPath)) {
+        MLOG_INFO("removing stale directory");
+        remove_all(tmpPath);
+    }
 
     if (!create_directories(tmpPath)) {
 
