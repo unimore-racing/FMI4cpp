@@ -6,6 +6,11 @@
 #include <fmi4cpp/tools/simple_id.hpp>
 #include <fmi4cpp/tools/unzipper.hpp>
 
+#include <cassert>
+#include <cstdlib>
+#include <filesystem>
+#include <stdexcept>
+#include <strstream>
 #include <utility>
 
 using namespace fmi4cpp;
@@ -46,6 +51,33 @@ fmu::fmu(const std::filesystem::path& fmuPath, const std::string& aId)
 
     resource_ = std::make_shared<fmu_resource>(tmpPath);
     modelDescription_ = std::move(parse_model_description(resource_->model_description_path()));
+
+    // force linker to use specific .so
+
+    auto fmuLib = std::filesystem::path(resource_->absolute_library_path(modelDescription_->as_cs_description()->model_identifier));
+    std::cout << "fmulib: " << fmuLib.filename() << "\n";
+    std::filesystem::path libXml = fmuLib.parent_path() / "libDallaraXmlAccess.so";
+    std::filesystem::path txtLib = fmuLib.parent_path() / "libDallaraTxtAccess.so";
+
+    auto new_libXml = fmuLib.parent_path().string() + "/xml_" + aId + fmuLib.extension().string();
+    auto new_txtLib = fmuLib.parent_path().string() + "/txt_" + aId + fmuLib.extension().string();
+
+    assert(std::filesystem::exists(libXml));
+    // rename
+    std::filesystem::rename(libXml, new_libXml);
+    std::filesystem::rename(txtLib, new_txtLib);
+    std::cout
+        << "renamed xml: " << libXml << " to " << new_libXml << "\n";
+
+    // change linked dependencies using patchelf
+    std::string cmd = "patchelf --replace-needed " + libXml.filename().string() + " " + new_libXml + " " + fmuLib.string();
+    std::cout << "cmd: " << cmd << "\n";
+
+    std::system(cmd.c_str());
+    cmd = "patchelf --replace-needed " + txtLib.filename().string() + " " + new_txtLib + " " + fmuLib.string();
+
+    std::system(cmd.c_str());
+    // throw std::runtime_error("STOP");
 }
 
 std::string fmu::get_model_description_xml() const
