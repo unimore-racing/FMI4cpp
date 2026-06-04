@@ -54,28 +54,28 @@ fmu::fmu(const std::filesystem::path& fmuPath, const std::string& aId)
 
     // force linker to use specific .so
 
-    auto fmuLib = std::filesystem::path(resource_->absolute_library_path(modelDescription_->as_cs_description()->model_identifier));
-    MLOG_DEBUG("fmulib: " + fmuLib.filename().string() + "\n");
-    std::filesystem::path libXml = fmuLib.parent_path() / "libDallaraXmlAccess.so";
-    std::filesystem::path txtLib = fmuLib.parent_path() / "libDallaraTxtAccess.so";
+    // auto fmuLib = std::filesystem::path(resource_->absolute_library_path(modelDescription_->as_cs_description()->model_identifier));
+    // MLOG_DEBUG("fmulib: " + fmuLib.filename().string() + "\n");
+    // std::filesystem::path libXml = fmuLib.parent_path() / "libDallaraXmlAccess.so";
+    // std::filesystem::path txtLib = fmuLib.parent_path() / "libDallaraTxtAccess.so";
 
-    auto new_libXml = fmuLib.parent_path().string() + "/xml_" + aId + fmuLib.extension().string();
-    auto new_txtLib = fmuLib.parent_path().string() + "/txt_" + aId + fmuLib.extension().string();
+    // auto new_libXml = fmuLib.parent_path().string() + "/xml_" + aId + fmuLib.extension().string();
+    // auto new_txtLib = fmuLib.parent_path().string() + "/txt_" + aId + fmuLib.extension().string();
 
-    assert(std::filesystem::exists(libXml));
-    // rename
-    std::filesystem::rename(libXml, new_libXml);
-    std::filesystem::rename(txtLib, new_txtLib);
-    MLOG_DEBUG(+"renamed xml: " + libXml.string() + " to " + new_libXml + "\n");
+    // assert(std::filesystem::exists(libXml));
+    // // rename
+    // std::filesystem::rename(libXml, new_libXml);
+    // std::filesystem::rename(txtLib, new_txtLib);
+    // MLOG_DEBUG(+"renamed xml: " + libXml.string() + " to " + new_libXml + "\n");
 
-    // change linked dependencies using patchelf
-    std::string cmd = "patchelf --replace-needed " + libXml.filename().string() + " " + new_libXml + " " + fmuLib.string();
-    MLOG_DEBUG("cmd: " + cmd + "\n");
+    // // change linked dependencies using patchelf
+    // std::string cmd = "patchelf --replace-needed " + libXml.filename().string() + " " + new_libXml + " " + fmuLib.string();
+    // MLOG_DEBUG("cmd: " + cmd + "\n");
 
-    std::system(cmd.c_str());
-    cmd = "patchelf --replace-needed " + txtLib.filename().string() + " " + new_txtLib + " " + fmuLib.string();
+    // std::system(cmd.c_str());
+    // cmd = "patchelf --replace-needed " + txtLib.filename().string() + " " + new_txtLib + " " + fmuLib.string();
 
-    std::system(cmd.c_str());
+    // std::system(cmd.c_str());
     // throw std::runtime_error("STOP");
 }
 
